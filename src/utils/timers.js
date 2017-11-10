@@ -3,8 +3,8 @@ const uuidv4 = require('uuid/v4')
 exports.createTimer = (timer) => {
   return {
     id: uuidv4(),
-    title: timer.title,
-    project: timer.project,
+    title: timer.title || 'Timer',
+    project: timer.project || 'Project',
     runningSince: null,
     elapsed: 0
   }

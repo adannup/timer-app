@@ -32,6 +32,7 @@ class TimersDashboard extends Component {
     this.updateTimer = this.updateTimer.bind(this);
     this.handleDeteleForm = this.handleDeteleForm.bind(this);
     this.deleteForm = this.deleteForm.bind(this);
+    this.handleRunningTimer = this.handleRunningTimer.bind(this);
   }
 
   handleSubmitForm(timer) {
@@ -77,6 +78,30 @@ class TimersDashboard extends Component {
     });
   }
 
+  handleRunningTimer(timerId) {
+    const now = Date.now();
+
+    this.setState({
+      timers: this.state.timers.map(timer => {
+        if(timer.id === timerId) {
+          if(!!timer.runningSince){
+            const lastElapsed = now - timer.runningSince;
+            return Object.assign({}, timer, {
+              elapsed: timer.elapsed + lastElapsed,
+              runningSince: null,
+            });
+          }else {
+            return Object.assign({}, timer, {
+              runningSince: now,
+            });
+          }
+        }else {
+          return timer;
+        }
+      })
+    })
+  }
+
   render() {
     return(
       <div className='timers-dashboard'>
@@ -84,6 +109,7 @@ class TimersDashboard extends Component {
           timers={this.state.timers}
           onFormUpdate={this.handleUpdateForm}
           onFormDelete={this.handleDeteleForm}
+          onRunningTimer={this.handleRunningTimer}
         />
         <ToggleableTimerForm
           isOpen={false}

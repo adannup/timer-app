@@ -48,6 +48,7 @@ class EditableTimer extends Component {
           runningSince={this.props.runningSince}
           onFormOpen={this.handleFormOpen}
           onFormDelete={this.props.onFormDelete}
+          onRunningTimer={this.props.onRunningTimer}
         />
       );
     }

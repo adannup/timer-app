@@ -13,6 +13,7 @@ class EditableTimerList extends Component {
         runningSince={timer.runningSince}
         onFormUpdate={this.props.onFormUpdate}
         onFormDelete={this.props.onFormDelete}
+        onRunningTimer={this.props.onRunningTimer}
       />
     ));
     return(
