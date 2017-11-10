@@ -6,14 +6,22 @@ const {fetchTimers, addTimer, deleteTimer, updateTimer, startTimer, stopTimer} =
 
 const api = express.Router();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3300;
 app.use(bodyParser.json());
+
+app.use('/', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 api.route('/timers')
   .get((req, res) => {
     res.status(200).json(fetchTimers());
   })
   .post((req, res) =>{
+    console.log(req.body);
     addTimer(req.body.title, req.body.project, req.body.id);
     res.status(200).send('subido');
   })

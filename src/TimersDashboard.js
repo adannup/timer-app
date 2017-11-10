@@ -2,28 +2,14 @@ import React, { Component } from 'react';
 import EditableTimerList from './EditableTimerList';
 import ToggleableTimerForm from './ToggleableTimerForm';
 import {createTimer} from './utils/timers';
+import client from './client';
 
 class TimersDashboard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      timers: [
-        {
-          title: 'Practice squat',
-          project: 'Gym Chores',
-          id: 1,
-          elapsed: 5456099,
-          runningSince: Date.now(),
-        },
-        {
-          title: 'Bake squash',
-          project: 'Kitchen Chores',
-          id: 2,
-          elapsed: 1273998,
-          runningSince: null,
-        },
-      ],
+      timers: [],
     }
 
     this.addTimer = this.addTimer.bind(this);
@@ -35,6 +21,18 @@ class TimersDashboard extends Component {
     this.handleRunningTimer = this.handleRunningTimer.bind(this);
   }
 
+  componentDidMount() {
+    this.loadTimersFromServer();
+    setInterval(this.loadTimersFromServer, 5000);
+  }
+
+  loadTimersFromServer = () => {
+    client.getTimers((serverTimers) => (
+        this.setState({ timers: serverTimers })
+      )
+    );
+  };
+
   handleSubmitForm(timer) {
     this.addTimer(timer);
   }
@@ -42,6 +40,7 @@ class TimersDashboard extends Component {
   addTimer(timer) {
     const t = createTimer(timer);
 
+    client.addTimer(t);
     this.setState({
       timers: this.state.timers.concat(t)
     });
@@ -76,6 +75,8 @@ class TimersDashboard extends Component {
     this.setState({
       timers: this.state.timers.filter(timer => timer.id !== timerId)
     });
+
+    client.deleteTimer(timerId);
   }
 
   handleRunningTimer(timerId) {
