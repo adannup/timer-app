@@ -86,12 +86,14 @@ class TimersDashboard extends Component {
       timers: this.state.timers.map(timer => {
         if(timer.id === timerId) {
           if(!!timer.runningSince){
+            client.stopTimer(timerId);
             const lastElapsed = now - timer.runningSince;
             return Object.assign({}, timer, {
               elapsed: timer.elapsed + lastElapsed,
               runningSince: null,
             });
           }else {
+            client.startTimer(timerId);
             return Object.assign({}, timer, {
               runningSince: now,
             });

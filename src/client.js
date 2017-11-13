@@ -47,3 +47,39 @@ exports.deleteTimer = (timerId) => {
 
   });
 }
+
+exports.startTimer = (timerId) => {
+  const options = {
+    url: 'http://localhost:3300/api/timers/start',
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: {
+      id: timerId
+    },
+    json: true
+  }
+  request(options, (error, response, body) => {
+
+  });
+}
+
+exports.stopTimer = (timerId) => {
+  const options = {
+    url: 'http://localhost:3300/api/timers/stop',
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: {
+      id: timerId
+    },
+    json: true
+  }
+  request(options, (error, response, body) => {
+
+  });
+}
